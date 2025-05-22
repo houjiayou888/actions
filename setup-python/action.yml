@@ -1,0 +1,24 @@
+name: 'setup-python'
+version: '1.0.0'
+author: 'your_id'
+description: '设置 Python 环境并执行构建命令，支持多版本与架构'
+
+inputs:
+  step-name:
+    description: '步骤名称'
+    required: true
+  python-version:
+    description: 'Python版本'
+    required: true
+  commands:
+    description: '需要执行的构建命令'
+    required: true
+  continue-on-error:
+    description: '是否在失败后继续'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'node20'
+  main: 'dist/main.js'
+  post: 'dist/stop.js'

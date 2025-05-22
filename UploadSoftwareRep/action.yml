@@ -1,0 +1,21 @@
+name: 'Package Uploader'
+description: '上传构建产物到软件发布库'
+inputs:
+  name:
+    description: '软件包名称'
+    required: true
+  build-path:
+    description: '构建产物路径（支持glob模式）'
+    required: true
+  version:
+    description: '发布版本号（semver格式）'
+    required: true
+  target-dir:
+    description: '目标上传目录（示例：releases/prod）'
+    required: true
+  continue-on-failure:
+    description: '失败后继续运行'
+    default: false
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

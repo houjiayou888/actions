@@ -1,0 +1,16 @@
+name: 'setup-maven'
+author: 'WooSharing'
+version: '0.0.1'
+description: '这是一个为流水线提供maven的插件'
+inputs:
+  maven_version:
+    description: 'maven的版本号'
+    default: ''
+    required: true
+    layout:
+      label: '工具版本'
+
+runs:
+  using: node20
+  main: dist/main.ts
+  post: dist/main.ts

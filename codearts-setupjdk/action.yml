@@ -1,0 +1,30 @@
+name: 'setupjdk'
+version: '1.0.0'
+author: 'your_id'
+description: '初始化指定版本的 JDK 环境'
+inputs:
+  jdk-version:
+    description: '要安装的 JDK 版本（例如：17、21）'
+    required: true
+    default: '17'
+    layout:
+      type: 'singleSelect'
+      label: 'JDK 版本选择'
+      extend_prop:
+        options:
+          - label: 'JDK 8'
+            value: '8'
+          - label: 'JDK 11'
+            value: '11'
+          - label: 'JDK 17'
+            value: '17'
+          - label: 'JDK 21'
+            value: '21'
+        api_type: 'fixed'
+outputs:
+  jdk-path:
+    description: '安装后的 JDK 路径'
+runs:
+  using: 'node20'
+  main: 'dist/main.js'
+  post: 'dist/stop.js'

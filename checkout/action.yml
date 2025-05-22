@@ -1,0 +1,65 @@
+name: 'checkout'
+author: 'WooSharing'
+version: '0.0.1'
+description: '这是一个流水线检出代码的插件'
+inputs:
+  repository:
+    description: '代码的仓库地址'
+    default: ${{ github.repository }}
+    required: true
+    layout:
+#      type: 'singleSelect'
+      type: 'input'
+      label: '仓库地址'
+#      options: [{label: '选项1',value: 1},{label: '选项2',value: 2}]
+  ref_type:
+    description: '检出代码的类型，可选:commitId,branch,tag.'
+    default: 'branch'
+    required: true
+    layout:
+      type: 'radio'
+      options: [{label: 'commitId',value: 1},{label: '分支',value: 2},{label: 'tag',value: 4}]]
+
+  ref:
+    description: '检出代码的ref'
+    default: ''
+    required: true
+    label: '仓库ref'
+  target_path:
+    description: '检出代码的目标路径'
+    default: ''
+    required: false
+    label: '目标路径'
+  submodule_init:
+    description: '是否同时克隆子模块？'
+    default: false
+    required: false
+    layout:
+      type: 'switch'
+      label: '同时克隆子模块'
+  is_depth:
+    description: '是否自定义克隆深度？'
+    default: false
+    required: false
+    layout:
+      type: 'switch'
+      label: '自定义克隆深度'
+  depth:
+    description: '代码克隆的深度， 默认: 1'
+    default: 1
+  lfs:
+    description: '是否下载Git LFS？'
+    default: false
+    required: false
+    layout:
+      type: 'switch'
+      label: '是否下载Git LFS'
+#  codearts-token:
+#    required: true
+#    description: 'CodeArts API Token'
+
+runs:
+  using: node20
+  main: src/index.ts
+  post: src/index.ts
+
