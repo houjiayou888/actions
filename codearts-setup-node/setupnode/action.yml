@@ -1,0 +1,30 @@
+name: 'setupnode'
+version: '1.0.0'
+author: 'edward'
+description: '为流水线自动安装并配置 Node.js 环境'
+inputs:
+  node-version:
+    description: 'Node.js 版本号（如 14、16、18、20）'
+    required: true
+    default: '18'
+    layout:
+      type: 'singleSelect'
+      label: 'Node.js 版本选择'
+      extend_prop:
+        options:
+          - label: 'Node.js 14'
+            value: '14'
+          - label: 'Node.js 16'
+            value: '16'
+          - label: 'Node.js 18'
+            value: '18'
+          - label: 'Node.js 20'
+            value: '20'
+        api_type: 'fixed'
+outputs:
+  node-path:
+    description: 'Node.js 安装路径'
+runs:
+  using: 'node16'
+  main: 'dist/main.js'
+  post: 'dist/stop.js'
