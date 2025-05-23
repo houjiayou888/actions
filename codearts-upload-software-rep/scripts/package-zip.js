@@ -13,8 +13,8 @@ const OUTPUT_ZIP = `${PLUGIN_NAME}.zip`;
 const DIST_DIR = 'dist';
 
 // 检查必要文件是否存在
-if (!fs.existsSync(DIST_DIR) || !fs.existsSync('action.yml') || !fs.existsSync('README.md')) {
-    console.error('❌ 缺少必要文件：dist/, action.yml, 或 README.md');
+if (!fs.existsSync(DIST_DIR) || !fs.existsSync('action.yml')) {
+    console.error('❌ 缺少必要文件：dist/, action.yml');
     process.exit(1); // 如果缺少关键文件，则终止脚本执行
 }
 
