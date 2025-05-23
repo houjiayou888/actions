@@ -187,6 +187,7 @@ async function configurePrivateRepo(releaseRepo: string, snapshotRepo: string): 
 
     } catch (error) {
         core.setFailed(error instanceof Error ? error.message : 'Unknown error');
+        return '';
     }
 }
 

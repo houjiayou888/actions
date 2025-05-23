@@ -1,6 +1,6 @@
 {
   "name": "codearts-actions-plugin-setupjdk",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "CodeArts Actions 插件 - 初始化 JDK 环境",
   "main": "dist/main.js",
   "scripts": {

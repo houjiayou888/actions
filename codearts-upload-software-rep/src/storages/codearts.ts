@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createReadStream } from 'fs';
 import { basename } from 'path';
-import mime from 'mime-types';
+import mime from "mime-types";
 
 export class CodeArtsUploader {
     constructor(private apiEndpoint: string, private authToken: string) {}

@@ -18,7 +18,7 @@ export async function checkoutCode(sourceSettings: IGitSourceSettings) {
             options.push('--depth', sourceSettings.depth);
         }
         if (sourceSettings.refType === 'branch') {
-            options.push('-b',sourceSettings.ref);
+            options.push('-b', sourceSettings.ref);
         }
         // 是否克隆子模块
         if (sourceSettings.submoduleInit) {
@@ -67,7 +67,11 @@ export async function checkoutCode(sourceSettings: IGitSourceSettings) {
             core.info('✅ 拉取 LFS 文件完成');
         }
     } catch (error) {
-        throw new Error(`代码检出失败: ${error.message}`);
+        if (error instanceof Error) {
+            throw new Error(`代码检出失败: ${error.message}`);
+        } else {
+            throw new Error(`代码检出失败: 未知错误`);
+        }
     }
 }
 

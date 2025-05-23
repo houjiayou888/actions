@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
-import { glob } from '@actions/glob';
+import { create, GlobOptions } from '@actions/glob';
 import { CodeArtsUploader } from './storages/codearts';
-import {basename} from "path";
+import { basename } from 'path';
 
 interface UploadOptions {
     packageName: string;
@@ -16,8 +16,8 @@ export async function runUpload(options: UploadOptions): Promise<{ success: stri
     const uploader = new CodeArtsUploader('https://api.codearts.example', options.codeartsToken);
     const results = { success: [] as string[], failed: [] as string[] };
 
-    // 查找文件
-    const globber = await glob.create(options.artifactPattern);
+    // 创建 glob 实例
+    const globber = await create(options.artifactPattern as string);
     const files = await globber.glob();
 
     if (files.length === 0) {
@@ -33,7 +33,7 @@ export async function runUpload(options: UploadOptions): Promise<{ success: stri
         } catch (error) {
             results.failed.push(file);
             if (!options.continueOnFailure) throw error;
-            core.warning(`Upload failed for ${file}: ${error.message}`);
+            core.warning(`Upload failed for ${file}: ${(error as Error).message}`);
         }
     }));
 

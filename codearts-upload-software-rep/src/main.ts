@@ -52,11 +52,12 @@ export async function runUpload(options: UploadOptions): Promise<void> {
                 await uploadFile(file, targetPath);
             } catch (error) {
                 if (!options.continueOnFailure) throw error;
-                core.warning(`文件上传失败：${error.message}`);
+                core.warning(`文件上传失败：${(error as Error).message}`);
+
             }
         }));
     } catch (error) {
-        throw new Error(`上传失败：${error.message}`);
+        throw new Error(`上传失败：${(error as Error).message}`);
     }
 }
 

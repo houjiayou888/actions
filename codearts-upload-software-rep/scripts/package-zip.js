@@ -4,7 +4,7 @@ const archiver = require('archiver');  // 用于创建 ZIP 压缩包
 const path = require('path');     // 路径处理模块，跨平台兼容路径拼接
 
 // 插件名称，用于生成压缩包文件名
-const PLUGIN_NAME = 'setup-jdk';
+const PLUGIN_NAME = 'upload-software-rep';
 
 // 输出的 ZIP 文件名
 const OUTPUT_ZIP = `${PLUGIN_NAME}.zip`;

@@ -1,4 +1,4 @@
-import {main} from '../src';
+import {main} from '../src/main';
 import * as core from '@actions/core'
 
 // 模拟整个 @actions/core 模块

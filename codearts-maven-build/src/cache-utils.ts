@@ -26,7 +26,7 @@ export function generateAutoCacheKey(): string {
     const pomFiles = globSync('**/pom.xml', {ignore: '**/target/**'});
     if (pomFiles.length === 0) {
         console.error('未找到 pom.xml 文件')
-        return;
+        return '';
         // throw new Error('未找到 pom.xml 文件');
     }
 

@@ -8,7 +8,7 @@
 
 - npm install
 - npm run all
-- node pack-setup-python.js
+- node package-zip.js
 
 ## ✨ 功能特性
 
