@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import { execSync } from 'child_process';
+import {run} from "../src/main";
 
 // 模拟整个 @actions/core 模块
 jest.mock('@actions/core', () => ({
@@ -12,6 +13,7 @@ jest.mock('@actions/core', () => ({
 jest.mock('child_process');
 // 类型断言为 Jest 的 Mock 类型
 const mockGetInput = core.getInput as jest.Mock;
+const mockExecSync = execSync as jest.Mock;
 describe('setup-python action', () => {
     beforeEach(() => {
         mockGetInput.mockImplementation((name: string) => {
@@ -22,13 +24,14 @@ describe('setup-python action', () => {
                 default: return '';
             }
         });
+        mockExecSync.mockImplementation(() => {});
         (core.setOutput as jest.Mock).mockImplementation(() => {});
         (core.setFailed as jest.Mock).mockImplementation(() => {});
         (core.error as jest.Mock).mockImplementation(() => {});
     });
 
-    it('should install python and run command', () => {
-        require('../src/main');  // 注意测试使用编译后的 JS
+    it('should install python and run command', async () => {
+        await run();
         expect(execSync).toHaveBeenCalledWith(expect.stringContaining('python3.10'), expect.any(Object));
         expect(execSync).toHaveBeenCalledWith(expect.stringContaining('echo Hello'), expect.any(Object));
     });

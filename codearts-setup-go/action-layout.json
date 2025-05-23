@@ -1,0 +1,41 @@
+{
+  "inputs": {
+    "step-name": {
+      "type": "input",
+      "label": "步骤显示名称",
+      "validation": {
+        "requiredMessage": "请输入步骤名称"
+      }
+    },
+    "python-version": {
+      "type": "singleSelect",
+      "label": "工具版本",
+      "options": [
+        { "label": "go-1.10.3", "value": "1.10.3" },
+        { "label": "go-1.11.6", "value": "1.11.6" },
+        { "label": "go-1.12.1", "value": "1.12.1" },
+        { "label": "go-1.13.1", "value": "1.13.1" },
+        { "label": "go-1.14", "value": "1.14" },
+        { "label": "go-1.15", "value": "1.15" },
+        { "label": "go-1.16", "value": "1.16" },
+        { "label": "go-1.17", "value": "1.17" },
+        { "label": "go-1.18", "value": "1.18" },
+        { "label": "go-1.19", "value": "1.19" },
+        { "label": "go-1.20", "value": "1.20" },
+        { "label": "go-1.21", "value": "1.21" },
+        { "label": "go-1.22", "value": "1.22" }
+      ],
+      "validation": {
+        "requiredMessage": "请选择 Go 版本"
+      }
+    },
+    "commands": {
+      "type": "shell",
+      "label": "命令"
+    },
+    "continue-on-error": {
+      "type": "switch",
+      "label": "失败后是否继续运行"
+    }
+  }
+}

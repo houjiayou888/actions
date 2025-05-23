@@ -1,14 +1,14 @@
-name: 'setup-python'
+name: 'setup-go'
 version: '0.0.1'
 author: 'hjb'
-description: '设置 Python 环境并执行构建命令，支持多版本与架构'
+description: '设置 Go 环境并执行构建命令，支持多版本与架构'
 
 inputs:
   step-name:
     description: '步骤名称'
     required: true
-  python-version:
-    description: 'Python版本'
+  go-version:
+    description: 'Go版本'
     required: true
   commands:
     description: '需要执行的构建命令'

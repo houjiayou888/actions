@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import { execSync } from 'child_process';
 import * as os from 'os';
 
-async function run(): Promise<void> {
+export  async function run(): Promise<void> {
     const version = core.getInput('python-version');
     const commands = core.getInput('commands');
     const continueOnError = core.getInput('continue-on-error')?.toLowerCase() === 'true';
@@ -27,4 +27,7 @@ async function run(): Promise<void> {
     }
 }
 
-run();
+// 如果是直接运行脚本，则执行
+if (require.main === module) {
+    run();
+}
