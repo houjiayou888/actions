@@ -1,7 +1,7 @@
-# CheckOut
+# pip
 
 #### Description
-codearts CheckOut
+codearts pip
 
 #### Software Architecture
 Software architecture description

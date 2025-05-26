@@ -1,5 +1,5 @@
 
-import { MapValueType } from "@/common/types";
+import { MapValueType } from "../common/types";
 
 // 中杠 转化为驼峰命名法  
 // hello-world-transter   =>   helloWorldTranster
@@ -54,3 +54,27 @@ export function arrayToMap(data: Array<string[]>): Map<string, string[]> {
   export function vauleFromKeyMap(map: Map<string, string[]>, key: string, index: number): string  {
     return map.get(key)?.[index] || '';
   }
+
+  // version:   v18.20.1-alpha.2  
+  export function validateVersion(version: string): boolean {
+    // 正则：v.数字.数字.任意非空字符串
+    const regex = /^v\d+\.\d+\.[^\s]+$/;
+    return regex.test(version);
+  }
+
+
+    // version:   18.20.1-alpha.2  
+  export function validateVersionWithoutV(version: string): boolean {
+    // 正则：v.数字.数字.任意非空字符串
+    const regex = /^\d+\.\d+\.[^\s]+$/;
+    return regex.test(version);
+  }
+
+  //  " Abc  Def  Hij "  =>  ["abc", "def", "hij"]
+export function splitAndLower(version: string): Array<string> {
+    // 使用正则表达式 /\s+/ 匹配一个或多个空格
+      return version
+      .split(/\s+/)           // 按多个空格分割
+      .filter(Boolean)        // 过滤空字符串
+      .map((s) => s.trim().toLowerCase());  // 修剪并转换为小写
+}
