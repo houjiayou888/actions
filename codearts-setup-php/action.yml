@@ -1,0 +1,24 @@
+name: 'setup-php'
+version: '0.0.1'
+author: 'hjb'
+description: '设置 PHP 环境并执行构建命令，支持多平台'
+
+inputs:
+  step-name:
+    description: '步骤名称'
+    required: true
+  php-version:
+    description: 'PHP版本，例如7.4或8.2'
+    required: true
+  commands:
+    description: '需要执行的构建命令'
+    required: false
+  continue-on-error:
+    description: '是否在失败后继续'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'node20'
+  main: 'dist/main.js'
+  post: 'dist/stop.js'

@@ -6,35 +6,39 @@ import * as path from 'path';
 export async function run() {
     try {
         const version = core.getInput('go-version');
-        const archInput = core.getInput('architecture') || 'x64';
+        const archInput = core.getInput('architecture') || os.arch(); // 支持自动判断架构
 
-        const platform = os.platform();
-        const arch = archInput === 'x86' ? '386' : archInput;
+        // 架构转换
+        const arch = archInput === 'x86' ? '386' : archInput === 'x64' ? 'amd64' : archInput;
 
-        let platformStr: string = platform;
-        if (platform === 'win32') platformStr = 'windows';
+        // 平台转换
+        let platform: string = os.platform();
+        platform = platform === 'win32' ? 'windows' : platform === 'darwin' ? 'darwin' : 'linux';
 
-        const ext = platformStr === 'windows' ? 'zip' : 'tar.gz';
-        const goUrl = `https://golang.org/dl/go${version}.${platformStr}-${arch}.${ext}`;
+        const ext = platform === 'windows' ? 'zip' : 'tar.gz';
+        const url = `https://golang.org/dl/go${version}.${platform}-${arch}.${ext}`;
 
-        core.info(`开始下载 Go：${goUrl}`);
-        const goArchive = await tc.downloadTool(goUrl);
+        core.info(`开始下载 Go ${version}：${url}`);
+        const archivePath = await tc.downloadTool(url);
 
-        const extractedPath = ext === 'zip'
-            ? await tc.extractZip(goArchive)
-            : await tc.extractTar(goArchive);
+        core.info(`解压 Go 包...`);
+        const extracted = ext === 'zip'
+            ? await tc.extractZip(archivePath)
+            : await tc.extractTar(archivePath);
 
-        const goRoot = path.join(extractedPath, 'go');
-        core.addPath(path.join(goRoot, 'bin'));
-        core.setOutput('go-path', path.join(goRoot, 'bin'));
+        const goRoot = path.join(extracted, 'go');
+        const goBin = path.join(goRoot, 'bin');
 
-        core.info(`Go ${version} 安装完成，路径：${goRoot}`);
-    } catch (error) {
-        core.setFailed((error as Error).message);
+        core.addPath(goBin);
+        core.exportVariable('GOROOT', goRoot);
+        core.setOutput('go-path', goBin);
+
+        core.info(`✅ Go ${version} 安装成功，路径：${goRoot}`);
+    } catch (error: any) {
+        core.setFailed(`❌ 安装失败：${error.message}`);
     }
 }
 
-// 如果是直接运行脚本，则执行
 if (require.main === module) {
     run();
 }

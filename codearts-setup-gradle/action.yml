@@ -1,0 +1,28 @@
+name: 'setup-gradle'
+version: '0.0.1'
+author: 'hjb'
+description: '跨平台设置 Gradle 环境并执行构建命令，支持版本管理与路径注入'
+
+inputs:
+  step-name:
+    description: '步骤名称'
+    required: true
+  gradle-version:
+    description: 'Gradle 版本号，例如 8.4'
+    required: true
+  commands:
+    description: '构建或测试命令（可选）'
+    required: false
+  continue-on-error:
+    description: '是否在执行失败时继续（true/false）'
+    required: false
+    default: 'false'
+
+outputs:
+  status:
+    description: '执行结果，成功返回 success'
+
+runs:
+  using: 'node20'
+  main: 'dist/main.js'
+  post: 'dist/stop.js'

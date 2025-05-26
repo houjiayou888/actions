@@ -1,0 +1,37 @@
+{
+  "inputs": {
+    "step-name": {
+      "type": "input",
+      "label": "步骤显示名称",
+      "validation": {
+        "requiredMessage": "请输入步骤名称"
+      }
+    },
+    "gradle-version": {
+      "type": "singleSelect",
+      "label": "Gradle 版本",
+      "options": [
+        { "label": "gradle-6.9", "value": "6.9" },
+        { "label": "gradle-7.0", "value": "7.0" },
+        { "label": "gradle-7.2", "value": "7.2" },
+        { "label": "gradle-7.6", "value": "7.6" },
+        { "label": "gradle-8.0", "value": "8.0" },
+        { "label": "gradle-8.1", "value": "8.1" },
+        { "label": "gradle-8.2", "value": "8.2" },
+        { "label": "gradle-8.3", "value": "8.3" },
+        { "label": "gradle-8.4", "value": "8.4" }
+      ],
+      "validation": {
+        "requiredMessage": "请选择 Gradle 版本"
+      }
+    },
+    "commands": {
+      "type": "shell",
+      "label": "构建命令（可选）"
+    },
+    "continue-on-error": {
+      "type": "switch",
+      "label": "失败后是否继续运行"
+    }
+  }
+}

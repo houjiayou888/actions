@@ -1,0 +1,33 @@
+{
+  "name": "setup-gradle",
+  "version": "0.0.1",
+  "description": "安装并设置指定版本的 gradle 运行环境，支持 x86/ARM 架构、构建命令执行与依赖管理。",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "package-main": "ncc build src/main.ts -o dist && shx mv dist/src/main.js dist/main.js",
+    "package-stop": "ncc build src/stop.ts -o dist && shx mv dist/src/stop.js dist/stop.js",
+    "compile": "npm run build && npm run package-main && npm run package-stop",
+    "zip": "rimraf dist/src && rimraf  dist/tests  && node scripts/package-zip.js",
+    "package": "npm run compile && npm run zip",
+    "test": "jest"
+  },
+  "author": "hjb",
+  "license": "MIT",
+  "devDependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/tool-cache": "^2.0.1",
+    "@types/jest": "^29.5.5",
+    "@types/node": "^20.11.30",
+    "@vercel/ncc": "^0.36.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.2",
+    "typescript": "^5.4.5",
+    "archiver": "^7.0.1",
+    "rimraf": "^6.0.1",
+    "shx": "^0.4.0"
+  },
+  "dependencies": {
+
+  }
+}
