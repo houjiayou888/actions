@@ -1,29 +1,29 @@
 import { 
-  checkNodeJS, 
-  getInputs, 
-  installNpm, 
-  checkNpmVersion, 
-  giveOutput
+  checkNodeJS1, 
+  getInputs2, 
+  installNpm3, 
+  checkNpmVersion4, 
+  giveOutput5
  } from './app/Steps';
 
 
 export async function run() : Promise<void> {
   try { 
 
-    // step0. 检测是否安装了 nodeJS
-    await checkNodeJS();
+    // step1. 检测是否安装了 nodeJS
+    await checkNodeJS1();
 
-    // step1. 获取输入参数
-    const options = await getInputs();
+    // step2. 获取输入参数
+    const options = await getInputs2();
 
-    // step2. 安装指定版本的 npm
-    await installNpm(options);
+    // step3. 安装指定版本的 npm
+    await installNpm3(options);
 
-    // step3. 检测是否安装成功
-    await checkNpmVersion(options);
+    // step4. 检测是否安装成功
+    await checkNpmVersion4(options);
 
-    // step4. 输出结果
-    await giveOutput(options);
+    // step5. 输出结果
+    await giveOutput5(options);
 
 
   } catch (error) { 

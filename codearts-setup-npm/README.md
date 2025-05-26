@@ -1,7 +1,7 @@
-# pip
+# npm
 
 #### 介绍
-codearts pip
+codearts npm
 
 #### 软件架构
 软件架构说明

@@ -1,7 +1,7 @@
-# CheckOut
+# npm
 
 #### Description
-codearts CheckOut
+codearts npm
 
 #### Software Architecture
 Software architecture description
