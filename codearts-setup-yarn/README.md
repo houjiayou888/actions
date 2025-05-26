@@ -1,7 +1,7 @@
-# pip
+# yarn
 
 #### 介绍
-codearts pip
+codearts yarn
 
 #### 软件架构
 软件架构说明

@@ -1,7 +1,7 @@
 {
-  "name": "npm",
+  "name": "yarn",
   "version": "0.0.1",
-  "description": "npm插件",
+  "description": "yarn插件",
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc",
@@ -19,7 +19,8 @@
     "chalk": "^5.4.1",
     "inquirer": "^12.6.0",
     "npm": "^9.8.1",
-    "simple-git": "^3.27.0"
+    "simple-git": "^3.27.0",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@actions/core": "^1.11.1",

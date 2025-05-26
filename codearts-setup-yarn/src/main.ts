@@ -1,35 +1,34 @@
-import * as core from '@actions/core'
-import { STATUS, SUCCESS, _ARG_VERSION, VERSION } from './common/const'; 
-import { exec } from '@actions/exec';
 
-
-// 导入 cmd
-import { capture } from './common/cmd';
+import { 
+  checkNpmVersion1,
+  getInputs2,
+  installYarn3,
+  checkYarnVersion4,
+  giveOutput5
+ } from './app/Steps';
 
 
 
 export async function run() : Promise<void> {
   try { 
 
-    // `npm install -g npm@${version}`
-    // const cmd = `npm install -g npm@${VERSION}`;
-    // console.log(`执行命令: ${cmd}`);
-    // 安装 
-    const params = ['install', `npm@${VERSION}`];
-    await exec('npm', params);
+    // 1. 检测是否安装了 npm
+    await checkNpmVersion1();
+    
+    // 2. 获取输入参数
+    const options = await getInputs2();
 
-    // 对比版本号
-    const realVersion = await capture('npm', [_ARG_VERSION]);
-    console.log(`realVersion: ${realVersion}`);
+    // 3. 安装指定版本的 yarn
+    await installYarn3(options);
 
-    if (realVersion === VERSION) {
-         // setOutput
-        core.setOutput(STATUS, SUCCESS);
-    } else {
-        // 未检测到指定的版本号
-        throw new Error(`未检测到指定的版本号: ${VERSION}`);
-    }
+    // 4. 校对安装的 npm 版本号
+    await checkYarnVersion4(options);
+
+    // 5. 输出结果
+    await giveOutput5(options);
+
   } catch (error) { 
      console.log(error);
+     throw new Error(`Error: ${error}`);
   }
 }
