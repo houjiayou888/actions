@@ -6,7 +6,7 @@ import { toCameCase, validateVersion } from '../common/util';
 import { BuildOptions } from './BuildOptions';
 import { STATUS, SUCCESS } from '../common/const';
 
-// step0. 检测是否安装了 nodeJS
+// step1. 检测是否安装了 nodeJS
 export async function checkNodeJS() : Promise<void> {
     try {
         const nodeVersion = await capture('node', ['-v']);
@@ -21,7 +21,7 @@ export async function checkNodeJS() : Promise<void> {
     }
 }
 
-// step1. 获取输入参数
+// step2. 获取输入参数
 export async function getInputs(callback? : (res: BuildOptions) => void): Promise<BuildOptions> {
     const result = {} as unknown as BuildOptions ; 
 
@@ -43,7 +43,7 @@ export async function getInputs(callback? : (res: BuildOptions) => void): Promis
     }
 }
 
-// step2. 安装指定版本的 npm
+// step3. 安装指定版本的 npm
 export async function installNpm(options: BuildOptions) : Promise<void> {
     try {
         const npmVersion = options.npmVersion;
@@ -56,7 +56,7 @@ export async function installNpm(options: BuildOptions) : Promise<void> {
     }
 }
 
-// step3. 校对安装的 npm 版本号
+// step4. 校对安装的 npm 版本号
 export async function checkNpmVersion(options: BuildOptions) : Promise<void> {
     try {
         const params = ['-v'];
@@ -71,7 +71,7 @@ export async function checkNpmVersion(options: BuildOptions) : Promise<void> {
     }
 }
 
-// step4. 输出结果
+// step5. 设置成功状态
 export async function giveOutput(options: BuildOptions) : Promise<void> {
     try {
         core.setOutput(STATUS, SUCCESS);

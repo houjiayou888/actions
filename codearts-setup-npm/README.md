@@ -9,9 +9,12 @@ codearts pip
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  step1. 检测是否安装了 nodeJS
+2.  step2. 获取输入参数
+3.  step3. 安装指定版本的 npm
+4.  step4. 校对安装的 npm 版本号
+5.  step5. 设置成功状态
+
 
 #### 使用说明
 
