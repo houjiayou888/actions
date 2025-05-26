@@ -1,0 +1,15 @@
+name: 'npm'
+author: 'wangzhou'
+version: '0.0.1'
+description: '这是一个流水线安装npm的插件'
+inputs:
+  npm-version:
+    description: 'npm的版本号'
+    required: true
+
+
+runs:
+  using: node20
+  main: dist/main.ts
+  post: src/stop.ts
+
