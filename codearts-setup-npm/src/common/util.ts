@@ -1,5 +1,5 @@
 
-import { MapValueType } from "@/common/types";
+import { MapValueType } from "../common/types";
 
 // 中杠 转化为驼峰命名法  
 // hello-world-transter   =>   helloWorldTranster
@@ -54,3 +54,12 @@ export function arrayToMap(data: Array<string[]>): Map<string, string[]> {
   export function vauleFromKeyMap(map: Map<string, string[]>, key: string, index: number): string  {
     return map.get(key)?.[index] || '';
   }
+
+  // version:   v18.20.1-alpha.2  
+  export function validateVersion(version: string): boolean {
+    // 正则：v.数字.数字.任意非空字符串
+    const regex = /^v\d+\.\d+\.[^\s]+$/;
+    return regex.test(version);
+  }
+
+

@@ -1,35 +1,33 @@
-import * as core from '@actions/core'
-import { STATUS, SUCCESS, _ARG_VERSION, VERSION } from './common/const'; 
-import { exec } from '@actions/exec';
-
-
-// 导入 cmd
-import { capture } from './common/cmd';
-
+import { 
+  checkNodeJS, 
+  getInputs, 
+  installNpm, 
+  checkNpmVersion, 
+  giveOutput
+ } from './app/Steps';
 
 
 export async function run() : Promise<void> {
   try { 
 
-    // `npm install -g npm@${version}`
-    // const cmd = `npm install -g npm@${VERSION}`;
-    // console.log(`执行命令: ${cmd}`);
-    // 安装 
-    const params = ['install', `npm@${VERSION}`];
-    await exec('npm', params);
+    // step0. 检测是否安装了 nodeJS
+    await checkNodeJS();
 
-    // 对比版本号
-    const realVersion = await capture('npm', [_ARG_VERSION]);
-    console.log(`realVersion: ${realVersion}`);
+    // step1. 获取输入参数
+    const options = await getInputs();
 
-    if (realVersion === VERSION) {
-         // setOutput
-        core.setOutput(STATUS, SUCCESS);
-    } else {
-        // 未检测到指定的版本号
-        throw new Error(`未检测到指定的版本号: ${VERSION}`);
-    }
+    // step2. 安装指定版本的 npm
+    await installNpm(options);
+
+    // step3. 检测是否安装成功
+    await checkNpmVersion(options);
+
+    // step4. 输出结果
+    await giveOutput(options);
+
+
   } catch (error) { 
      console.log(error);
+     throw new Error(error + ' , 程序异常！');
   }
 }

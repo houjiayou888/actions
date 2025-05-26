@@ -9,16 +9,35 @@ jest.mock('@actions/core'); // 模拟 @actions/cor
 
 const mockSetOutput = mocked(core.setOutput);
 
-describe('run function', () => {
+describe('npm 插件安装流程测试', () => {
   beforeEach(() => {
      // 清除所有模拟函数的调用
     jest.clearAllMocks();
   });
 
-  it('should log the greeting message', async () => {
+  it('main.ts 中的 run() 方法', async () => {
+      // 模拟多个输入参数
+        (core.getInput as jest.Mock).mockImplementation((name: string) => {
+              const inputs = {
+                'npm-version':  '9.8.1'
+              };
+              // 检查是否存在且 required
+              // 定义一个类型来明确 inputs 对象的结构
+              type Inputs = {
+                'npm-version': string;
+              };
+
+              const inputKeys: Array<keyof Inputs> = Object.keys(inputs) as Array<keyof Inputs>;
+              if (!inputKeys.includes(name as keyof Inputs)) {
+                      throw new Error(`缺少参数: ${name}`);
+              }
+              // 由于 name 类型为 string，不能直接作为索引访问 inputs 对象，这里使用类型断言确保可以正确访问
+              const inputName = name as keyof Inputs;
+              return inputs[inputName] || '';
+        });
         await run();
         // 检测
         expect(mockSetOutput)
             .toHaveBeenCalledWith(STATUS, SUCCESS);
-  }, 60000);  // 超时时间为 30 秒
+  }, 60000);  // 超时时间为 60 秒
 });
