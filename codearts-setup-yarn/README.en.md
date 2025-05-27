@@ -1,7 +1,7 @@
-# CheckOut
+# yarn
 
 #### Description
-codearts CheckOut
+codearts yarn
 
 #### Software Architecture
 Software architecture description

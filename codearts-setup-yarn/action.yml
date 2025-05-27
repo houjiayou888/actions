@@ -1,10 +1,10 @@
-name: 'npm'
+name: 'yarn'
 author: 'wangzhou'
 version: '0.0.1'
-description: '这是一个流水线安装npm的插件'
+description: '这是一个流水线安装yarn的插件'
 inputs:
-  npm-version:
-    description: 'npm的版本号'
+  yarn-version:
+    description: 'yarn的版本号'
     required: true
 
 
