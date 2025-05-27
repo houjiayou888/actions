@@ -1,65 +1,98 @@
-name: 'checkout'
-author: 'WooSharing'
+name: 'checkout-action'
 version: '0.0.1'
-description: '这是一个流水线检出代码的插件'
+author: 'hjb'
+description: '从CodeArts代码仓库中克隆代码，支持指定分支、tag、commitId，支持LFS、子模块、深度克隆等功能。'
+
 inputs:
+  token:
+    description: 'IAM Token，用于接口鉴权'
+    required: true
+    default: ${{ X_AUTH_TOKEN }}
+    layout:
+      type: 'input'
+      label: 'IAM Token'
+
   repository:
-    description: '代码的仓库地址'
-    default: ${{ github.repository }}
+    description: '代码仓库地址'
     required: true
     layout:
-#      type: 'singleSelect'
-      type: 'input'
-      label: '仓库地址'
-#      options: [{label: '选项1',value: 1},{label: '选项2',value: 2}]
+      type: 'singleSelect'
+      label: '代码仓库'
+      extend_prop:
+        api_type: 'api'
+        api_options: '{"url":"https://codehub.devcloud.cn/api/repositories","method":"GET","responseUrl":"data","label":"name","value":"url"}'
+      validation:
+        required_message: '请选择代码仓库'
+
   ref_type:
-    description: '检出代码的类型，可选:commitId,branch,tag.'
-    default: 'branch'
+    description: '引用类型（commitId、branch、tag）'
     required: true
+    default: 'branch'
     layout:
       type: 'radio'
-      options: [{label: 'commitId',value: 1},{label: '分支',value: 2},{label: 'tag',value: 4}]]
+      label: '引用类型'
+      extend_prop:
+        options:
+          - label: 'Commit ID'
+            value: 'commitId'
+          - label: '分支'
+            value: 'branch'
+          - label: 'Tag'
+            value: 'tag'
+      validation:
+        required_message: '请选择引用类型'
 
-  ref:
-    description: '检出代码的ref'
-    default: ''
+  ref_value:
+    description: '引用值：分支名 / tag名 / commitId'
     required: true
-    label: '仓库ref'
+    layout:
+      type: 'input'
+      label: '引用值'
+      validation:
+        required_message: '请输入引用值'
+
   target_path:
-    description: '检出代码的目标路径'
-    default: ''
+    description: '代码克隆的目标路径'
     required: false
-    label: '目标路径'
-  submodule_init:
-    description: '是否同时克隆子模块？'
-    default: false
+    default: '.'
+    layout:
+      type: 'input'
+      label: '目标路径'
+
+  recurse_submodules:
+    description: '是否克隆子模块'
     required: false
+    default: 'false'
     layout:
       type: 'switch'
-      label: '同时克隆子模块'
-  is_depth:
-    description: '是否自定义克隆深度？'
-    default: false
+      label: '克隆子模块'
+
+  custom_depth:
+    description: '自定义克隆深度'
     required: false
     layout:
-      type: 'switch'
-      label: '自定义克隆深度'
-  depth:
-    description: '代码克隆的深度， 默认: 1'
-    default: 1
-  lfs:
-    description: '是否下载Git LFS？'
-    default: false
+      type: 'inputNumber'
+      label: '克隆深度'
+
+  enable_lfs:
+    description: '是否启用 Git LFS'
     required: false
+    default: 'false'
     layout:
       type: 'switch'
-      label: '是否下载Git LFS'
-#  codearts-token:
-#    required: true
-#    description: 'CodeArts API Token'
+      label: '启用 Git LFS'
+
+outputs:
+  checkout_status:
+    description: 'Checkout执行状态'
+    type: metrics
+    properties:
+      catalog_cn: '代码检出'
+      catalog_en: 'Checkout'
+      name_cn: '检出状态'
+      name_en: 'Status'
 
 runs:
-  using: node20
-  main: dist/main.ts
-  post: src/stop.ts
-
+  using: 'node20'
+  main: 'dist/main.js'
+  post: 'dist/stop.js'

@@ -1,36 +1,25 @@
-# CheckOut
+# checkout-action
 
-#### Description
-codearts CheckOut
+从 CodeArts 代码仓库中检出代码的插件，支持分支、标签、Commit ID 等多种方式，支持克隆子模块、自定义深度、Git LFS 等高级选项。
 
-#### Software Architecture
-Software architecture description
+## 📦 插件功能
 
-#### Installation
+- 支持分支、tag、commitId 三种检出方式
+- 支持指定目标路径
+- 支持 Git 子模块（--recurse-submodules）
+- 支持 Git LFS
+- 支持浅克隆（--depth）
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## ⚙️ 使用示例
 
-#### Instructions
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
-
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+```yaml
+- uses: checkout@0.0.1
+  with:
+    token: ${{ X_AUTH_TOKEN }}
+    repository: https://example.com/myrepo.git
+    ref_type: branch
+    ref_value: main
+    target_path: ./my-code
+    recurse_submodules: true
+    custom_depth: 5
+    enable_lfs: true

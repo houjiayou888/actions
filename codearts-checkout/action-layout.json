@@ -1,0 +1,56 @@
+{
+  "repository": {
+    "label": "代码仓库",
+    "type": "singleSelect",
+    "extend_prop": {
+      "api_type": "api",
+      "api_options": {
+        "url": "https://codehub.devcloud.cn/api/repositories",
+        "method": "GET",
+        "responseUrl": "data",
+        "label": "name",
+        "value": "url"
+      }
+    }
+  },
+  "ref_type": {
+    "label": "引用类型",
+    "type": "radio",
+    "extend_prop": {
+      "options": [
+        {
+          "label": "Commit ID",
+          "value": "commitId"
+        },
+        {
+          "label": "分支",
+          "value": "branch"
+        },
+        {
+          "label": "Tag",
+          "value": "tag"
+        }
+      ]
+    }
+  },
+  "ref_value": {
+    "label": "引用值",
+    "type": "input"
+  },
+  "target_path": {
+    "label": "目标路径",
+    "type": "input"
+  },
+  "recurse_submodules": {
+    "label": "克隆子模块",
+    "type": "switch"
+  },
+  "custom_depth": {
+    "label": "克隆深度",
+    "type": "inputNumber"
+  },
+  "enable_lfs": {
+    "label": "启用 Git LFS",
+    "type": "switch"
+  }
+}

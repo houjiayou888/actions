@@ -1,20 +1,69 @@
-import * as core from '@actions/core'
-import {checkoutCode} from './git-utils';
-import {getInputs} from "./input-helper";
+import * as core from '@actions/core';
+import * as exec from '@actions/exec';
+import * as path from 'path';
+import * as os from 'os';
+import * as fs from 'fs';
 
-export async function main() {
+export async function run(): Promise<void> {
     try {
-        const sourceSettings = await getInputs();
-        // 执行 checkout
-        await checkoutCode(sourceSettings);
+        const repository = core.getInput('repository');
+        const refType = core.getInput('ref_type');
+        const refValue = core.getInput('ref_value');
+        const targetPath = core.getInput('target_path') || '.';
+        const recurseSubmodules = core.getBooleanInput('recurse_submodules');
+        const customDepth = core.getInput('custom_depth');
+        const enableLfs = core.getBooleanInput('enable_lfs');
 
-        core.info('代码检出成功');
-        // 设置输出
-    } catch (error) {
-        if (error instanceof Error) {
-            core.setFailed(`❌ 错误: ${error.message}`);
-        } else {
-            core.setFailed(`❌ 检出失败，未知错误`);
+        const platform = os.platform();
+        const resolvedTarget = path.resolve(targetPath);
+
+        core.info(`📁 准备克隆到路径：${resolvedTarget}`);
+
+        // 如果目标路径不存在，先创建目录
+        if (!fs.existsSync(resolvedTarget)) {
+            fs.mkdirSync(resolvedTarget, { recursive: true });
+            core.info(`📁 创建目录成功：${resolvedTarget}`);
         }
+
+        // Git LFS 初始化（如启用）
+        if (enableLfs) {
+            core.info('🔧 安装 Git LFS...');
+            await exec.exec('git', ['lfs', 'install']);
+        }
+
+        // 构建 git clone 命令
+        const cloneArgs = ['clone'];
+        if (recurseSubmodules) cloneArgs.push('--recurse-submodules');
+        if (customDepth) cloneArgs.push(`--depth=${customDepth}`);
+        cloneArgs.push(repository, resolvedTarget);
+
+        core.info(`🔄 正在执行：git ${cloneArgs.join(' ')}`);
+        await exec.exec('git', cloneArgs);
+
+        // 切换到克隆目录
+        process.chdir(resolvedTarget);
+
+        // checkout 具体引用
+        switch (refType) {
+            case 'commitId':
+                await exec.exec('git', ['checkout', refValue]);
+                break;
+            case 'branch':
+                await exec.exec('git', ['checkout', '-t', `origin/${refValue}`]);
+                break;
+            case 'tag':
+                await exec.exec('git', ['checkout', `tags/${refValue}`]);
+                break;
+            default:
+                throw new Error(`不支持的引用类型: ${refType}`);
+        }
+
+        core.setOutput('checkout_status', 'success');
+        core.info('✅ Checkout 完成');
+
+    } catch (error: any) {
+        core.setFailed(`❌ Checkout 失败: ${error.message}`);
     }
 }
+
+run();
