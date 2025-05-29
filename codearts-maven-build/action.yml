@@ -1,29 +1,25 @@
-name: 'maven-build-action'
-description: '具有高级选项的自定义Maven构建管道'
-author: 'WooSharing'
-version: '0.0.1'
+name: 'maven-build'
+description: '执行 Maven 构建任务'
 inputs:
-  name:
-    description: '构建任务名称'
+  maven-command:
+    description: '要执行的 Maven 命令'
     required: true
-  maven-version:
-    description: 'Maven 版本 (e.g. 3.8.6)'
-    required: true
-  command:
-    description: 'Maven 命令 (e.g. clean install)'
-    required: true
+    default: 'mvn package -Dmaven.test.skip=true -U -e -X -B'
+    layout:
+      type: 'input'
+      label: 'Maven 构建命令'
+
   continue-on-failure:
-    description: '失败后是否继续运行'
+    description: '构建失败后是否继续执行后续任务'
+    required: false
     default: 'false'
-  publish-to-repo:
-    description: '发布到 CodeArts 私有依赖库'
-    default: 'false'
-  skip-tests:
-    description: '跳过单元测试'
-    default: 'false'
-  enable-cache:
-    description: '启用依赖包缓存'
-    default: 'true'
+    layout:
+      type: 'switch'
+      label: '失败后继续运行'
+
 runs:
   using: 'node20'
-  main: 'src/main.js'
+  main: 'dist/main.js'
+  post: 'dist/stop.js'
+
+

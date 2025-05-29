@@ -11,17 +11,40 @@ inputs:
     layout:
       type: 'input'
       label: 'IAM Token'
-
+  project_uuid:
+    description: '项目 UUID（32位字符串）'
+    required: true
+    default: ${{ PROJECT_ID }}
+    layout:
+      type: 'input'
+      label: '项目 ID'
   repository:
     description: '代码仓库地址'
     required: true
     layout:
       type: 'singleSelect'
-      label: '代码仓库'
+      label: '选择仓库'
       extend_prop:
         api_type: 'api'
-        api_options: '{"url":"https://codehub.devcloud.cn/api/repositories","method":"GET","responseUrl":"data","label":"name","value":"url"}'
-      validation:
+        api_options: '{
+            "method": "GET",
+            "url": "https://codehub.devcloud.cn-north-7.huaweicloud.com/v2/projects/${project_uuid}/repositories",
+            "header": {
+              "X-Auth-Token": "${token}"
+            },
+            "params": {
+              "page_index": 1,
+              "page_size": 100
+            },
+            "linkedFields": ["token", "project_uuid"],
+            "remote": true,
+            "remoteName": "search",
+            "remoteQueryField": "params",
+            "responseUrl": "result.repositories",
+            "label": "repository_name",
+            "ssh_url": "repository_uuid"
+          }'
+        validation:
         required_message: '请选择代码仓库'
 
   ref_type:

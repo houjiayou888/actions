@@ -14,7 +14,9 @@ export async function run(): Promise<void> {
         const customDepth = core.getInput('custom_depth');
         const enableLfs = core.getBooleanInput('enable_lfs');
 
-        const platform = os.platform();
+        // const platform = os.platform();
+        const platform = process.env['RUNNER_OS'];   //获取系统变量
+        core.info(`获取系统变量RUNNER_OS：${platform}`);
         const resolvedTarget = path.resolve(targetPath);
 
         core.info(`📁 准备克隆到路径：${resolvedTarget}`);
@@ -27,7 +29,7 @@ export async function run(): Promise<void> {
 
         // Git LFS 初始化（如启用）
         if (enableLfs) {
-            core.info('🔧 安装 Git LFS...');
+            core.info('安装 Git LFS...');
             await exec.exec('git', ['lfs', 'install']);
         }
 
@@ -37,7 +39,7 @@ export async function run(): Promise<void> {
         if (customDepth) cloneArgs.push(`--depth=${customDepth}`);
         cloneArgs.push(repository, resolvedTarget);
 
-        core.info(`🔄 正在执行：git ${cloneArgs.join(' ')}`);
+        core.info(`正在执行：git ${cloneArgs.join(' ')}`);
         await exec.exec('git', cloneArgs);
 
         // 切换到克隆目录
@@ -59,10 +61,13 @@ export async function run(): Promise<void> {
         }
 
         core.setOutput('checkout_status', 'success');
-        core.info('✅ Checkout 完成');
+        // 将路径写入环境变量，供 maven-build 使用
+        core.exportVariable('WORKSPACE', resolvedTarget);
+        core.info(`已导出 WORKSPACE=${resolvedTarget}`);
+        core.info('Checkout 完成');
 
     } catch (error: any) {
-        core.setFailed(`❌ Checkout 失败: ${error.message}`);
+        core.setFailed(`Checkout 失败: ${error.message}`);
     }
 }
 
