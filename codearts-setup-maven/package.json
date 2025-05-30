@@ -8,7 +8,7 @@
     "pkg": "tsc && ncc build src/main.ts -o dist",
     "package-main": "ncc build src/main.ts -o dist && shx mv dist/src/main.js dist/main.js",
     "package-stop": "ncc build src/stop.ts -o dist && shx mv dist/src/stop.js dist/stop.js",
-    "compile": "npm run build && npm run package-main && npm run package-stop",
+    "compile": "npm run package-main && npm run package-stop",
     "zip": "rimraf dist/src && rimraf  dist/tests && node scripts/package-zip.js",
     "package": "npm run compile && npm run zip",
     "test": "jest"
