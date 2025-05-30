@@ -12,5 +12,5 @@ inputs:
 
 runs:
   using: node20
-  main: dist/main.ts
-  post: dist/main.ts
+  main: dist/main.js
+  post: dist/stop.js
