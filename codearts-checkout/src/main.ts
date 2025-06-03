@@ -20,7 +20,14 @@ export async function run(): Promise<void> {
         const resolvedTarget = path.resolve(targetPath);
 
         core.info(`📁 准备克隆到路径：${resolvedTarget}`);
-
+        try {
+            core.info(`正在验证仓库访问权限：${repository}`);
+            await exec.exec('git', ['ls-remote', repository]);
+            core.info('✅ 仓库访问验证通过');
+        } catch (err) {
+            core.setFailed(`❌ 仓库访问失败，可能没有权限或仓库不存在：${repository}\n${err.message}`);
+            return;
+        }
         // 如果目标路径不存在，先创建目录
         if (!fs.existsSync(resolvedTarget)) {
             fs.mkdirSync(resolvedTarget, { recursive: true });
@@ -39,10 +46,14 @@ export async function run(): Promise<void> {
         if (recurseSubmodules) cloneArgs.push('--recurse-submodules');
         if (customDepth) cloneArgs.push(`--depth=${customDepth}`);
         cloneArgs.push(repository, resolvedTarget);
-
+        // 克隆前清空目标目录（如果已存在）
+        if (fs.existsSync(resolvedTarget)) {
+            core.info(`目录已存在，正在删除：${resolvedTarget}`);
+            fs.rmSync(resolvedTarget, { recursive: true, force: true });
+            core.info(`目录已清空`);
+        }
         core.info(`正在执行：git ${cloneArgs.join(' ')}`);
         await exec.exec('git', cloneArgs);
-
         // 切换到克隆目录
         process.chdir(resolvedTarget);
 
