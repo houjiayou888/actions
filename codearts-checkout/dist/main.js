@@ -25730,11 +25730,9 @@ async function run() {
             cloneArgs.push(`--depth=${customDepth}`);
         cloneArgs.push(repository, resolvedTarget);
         // 克隆前清空目标目录（如果已存在）
-        if (fs.existsSync(resolvedTarget)) {
-            core.info(`目录已存在，正在删除：${resolvedTarget}`);
-            fs.rmSync(resolvedTarget, { recursive: true, force: true });
-            core.info(`目录已清空`);
-        }
+        core.info(`清空目录内容：${resolvedTarget}`);
+        emptyDir(resolvedTarget); // 清空而不是删除整个目录
+        core.info(`目录已清空`);
         core.info(`正在执行：git ${cloneArgs.join(' ')}`);
         await exec.exec('git', cloneArgs);
         // 切换到克隆目录
@@ -25761,6 +25759,20 @@ async function run() {
     }
     catch (error) {
         core.setFailed(`Checkout 失败: ${error.message}`);
+    }
+}
+function emptyDir(dirPath) {
+    if (!fs.existsSync(dirPath))
+        return;
+    for (const entry of fs.readdirSync(dirPath)) {
+        const fullPath = path.join(dirPath, entry);
+        const stat = fs.lstatSync(fullPath);
+        if (stat.isDirectory()) {
+            fs.rmSync(fullPath, { recursive: true, force: true });
+        }
+        else {
+            fs.unlinkSync(fullPath);
+        }
     }
 }
 run();
