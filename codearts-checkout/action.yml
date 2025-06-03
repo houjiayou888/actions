@@ -7,14 +7,14 @@ inputs:
   token:
     description: 'IAM Token，用于接口鉴权'
     required: true
-    default: ${{ X_AUTH_TOKEN }}
+#    default: ${{ X_AUTH_TOKEN }}
     layout:
       type: 'input'
       label: 'IAM Token'
   project_uuid:
     description: '项目 UUID（32位字符串）'
     required: true
-    default: ${{ PROJECT_ID }}
+#    default: ${{ PROJECT_ID }}
     layout:
       type: 'input'
       label: '项目 ID'
