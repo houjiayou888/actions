@@ -35,6 +35,7 @@ export async function run(): Promise<void> {
 
         // 构建 git clone 命令
         const cloneArgs = ['clone'];
+        if(refType ==='branch') cloneArgs.push('-b '+refValue);
         if (recurseSubmodules) cloneArgs.push('--recurse-submodules');
         if (customDepth) cloneArgs.push(`--depth=${customDepth}`);
         cloneArgs.push(repository, resolvedTarget);
@@ -50,9 +51,9 @@ export async function run(): Promise<void> {
             case 'commitId':
                 await exec.exec('git', ['checkout', refValue]);
                 break;
-            case 'branch':
-                await exec.exec('git', ['checkout', '-t', `origin/${refValue}`]);
-                break;
+            // case 'branch':
+            //     await exec.exec('git', ['checkout', '-t', `origin/${refValue}`]);
+            //     break;
             case 'tag':
                 await exec.exec('git', ['checkout', `tags/${refValue}`]);
                 break;
