@@ -105,15 +105,15 @@ inputs:
       type: 'switch'
       label: '启用 Git LFS'
 
-outputs:
-  checkout_status:
-    description: 'Checkout执行状态'
-    type: metrics
-    properties:
-      catalog_cn: '代码检出'
-      catalog_en: 'Checkout'
-      name_cn: '检出状态'
-      name_en: 'Status'
+#outputs:
+#  checkout_status:
+#    description: 'Checkout执行状态'
+#    type: 'metrics'
+#    properties:
+#      catalog_cn: '代码检出'
+#      catalog_en: 'Checkout'
+#      name_cn: '检出状态'
+#      name_en: 'Status'
 
 runs:
   using: 'node20'
