@@ -25,7 +25,7 @@ export async function run(): Promise<void> {
             await exec.exec('git', ['ls-remote', repository]);
             core.info('✅ 仓库访问验证通过');
         } catch (err) {
-            core.setFailed(`❌ 仓库访问失败，可能没有权限或仓库不存在：${repository}\n${err.message}`);
+            core.setFailed(`❌ 仓库访问失败，可能没有权限或仓库不存在：${repository}\n${err}`);
             return;
         }
         // 如果目标路径不存在，先创建目录
